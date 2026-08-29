@@ -12,7 +12,12 @@ export default function Exercise({ id, prompt, starterCode, check, lessonSlug, o
   async function handleCheck() {
     setChecking(true);
     const { stdout, stderr } = await run(code);
-    const passed = !stderr && runCheck(stdout, check);
+    let passed = false;
+    try {
+      passed = !stderr && runCheck(stdout, check);
+    } catch {
+      passed = false;
+    }
     setResult({ passed, actual: stderr || stdout });
     setChecking(false);
     if (passed) {
@@ -38,12 +43,18 @@ export default function Exercise({ id, prompt, starterCode, check, lessonSlug, o
         >
           {status !== "ready" ? "Loading Python…" : checking ? "Checking…" : "Check"}
         </button>
-        {result && (
-          <span className={`font-mono text-sm ${result.passed ? "text-pine" : "text-rust"}`}>
-            {result.passed ? "Passed!" : `Not quite — got: ${result.actual}`}
-          </span>
-        )}
+        {result?.passed && <span className="font-mono text-sm text-pine">Passed!</span>}
       </div>
+      {result && !result.passed && (
+        <div className="border-t border-rule p-3 font-mono text-sm text-rust">
+          <p className="mb-2">Not quite yet — here's what your code produced:</p>
+          <pre className="mb-2 whitespace-pre-wrap rounded-sm bg-paper p-2">
+            {result.actual || "(no output)"}
+          </pre>
+          <p className="mb-2">Expected:</p>
+          <pre className="whitespace-pre-wrap rounded-sm bg-paper p-2">{check.expected}</pre>
+        </div>
+      )}
     </div>
   );
 }

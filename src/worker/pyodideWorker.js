@@ -1,4 +1,3 @@
-// src/worker/pyodideWorker.js
 import { loadPyodide, version as pyodideVersion } from "pyodide";
 
 let pyodideReady = null;
@@ -7,6 +6,13 @@ async function initPyodide() {
   return loadPyodide({
     indexURL: `https://cdn.jsdelivr.net/pyodide/v${pyodideVersion}/full/`,
   });
+}
+
+function formatTraceback(message) {
+  const marker = 'File "<exec>"';
+  const index = message.indexOf(marker);
+  if (index === -1) return message;
+  return `Traceback (most recent call last):\n  ${message.slice(index)}`;
 }
 
 self.onmessage = async (event) => {
@@ -37,10 +43,13 @@ self.onmessage = async (event) => {
         stderr += text + "\n";
       },
     });
+    const globals = pyodide.toPy({ __name__: "__main__" });
     try {
-      await pyodide.runPythonAsync(code);
+      await pyodide.runPythonAsync(code, { globals });
     } catch (err) {
-      stderr += String(err);
+      stderr += formatTraceback(String(err));
+    } finally {
+      globals.destroy();
     }
     self.postMessage({ type: "result", id, stdout, stderr });
   }

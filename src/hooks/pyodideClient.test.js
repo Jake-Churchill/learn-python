@@ -1,4 +1,3 @@
-// src/hooks/pyodideClient.test.js
 import { describe, it, expect, vi } from "vitest";
 import { createPyodideClient } from "./pyodideClient.js";
 

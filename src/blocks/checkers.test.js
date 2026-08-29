@@ -1,4 +1,3 @@
-// src/blocks/checkers.test.js
 import { describe, it, expect } from "vitest";
 import { normalizeOutput, checkStdoutExact, runCheck } from "./checkers.js";
 

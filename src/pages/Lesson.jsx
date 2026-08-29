@@ -20,6 +20,13 @@ export default function Lesson() {
       </h1>
       {lesson.blocks.map((block, i) => {
         const Component = blockRegistry[block.type];
+        if (!Component) {
+          return (
+            <p key={`${lesson.slug}-${i}`} className="my-4 font-mono text-sm text-rust">
+              Unknown block type: {block.type}
+            </p>
+          );
+        }
         return (
           <Component
             key={`${lesson.slug}-${i}`}

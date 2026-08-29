@@ -1,4 +1,3 @@
-// src/hooks/pyodideClient.js
 export function createPyodideClient(worker) {
   const pending = new Map();
   const statusListeners = new Set();

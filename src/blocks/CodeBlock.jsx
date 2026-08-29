@@ -33,10 +33,10 @@ export default function CodeBlock({ code: initialCode }) {
           {status !== "ready" ? "Loading Python…" : running ? "Running…" : "Run"}
         </button>
       </div>
-      {output && (
-        <pre className="whitespace-pre-wrap border-t border-rule bg-paper p-3 font-mono text-sm text-ink">
-          {output.stdout}
-          {output.stderr}
+      {output && (output.stdout || output.stderr) && (
+        <pre className="whitespace-pre-wrap border-t border-rule bg-paper p-3 font-mono text-sm">
+          <span className="text-ink">{output.stdout}</span>
+          {output.stderr && <span className="text-rust">{output.stderr}</span>}
         </pre>
       )}
     </div>
