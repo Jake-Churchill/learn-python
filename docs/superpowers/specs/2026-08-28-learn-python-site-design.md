@@ -59,21 +59,26 @@ src/
   hooks/
     usePyodide.js          # postMessage wrapper around the worker; exposes run(code) -> {stdout, error}
     useProgress.js         # reads/writes localStorage progress map
-  components/
+  blocks/
+    registry.js             # maps block `type` string -> renderer component
+    Prose.jsx
     CodeBlock.jsx          # CodeMirror editor + Run button + output panel (used for examples)
-    Exercise.jsx           # CodeMirror editor + Check button + pass/fail feedback (uses expected-output match)
+    Exercise.jsx           # CodeMirror editor + Check button + pass/fail feedback (dispatches on check.type)
+  components/
     Sidebar.jsx            # lesson list with completion checkmarks, current-lesson highlight
     LessonLayout.jsx        # sidebar + content area + Next/Previous footer
   content/
-    lessons/
-      01-welcome.js
-      02-variables-and-types.js
-      ... (one file per lesson, 14 total)
-    lessonIndex.js          # ordered array of {slug, title} driving Sidebar + routing
+    courses/
+      python-core/
+        lessonIndex.js      # ordered array of {slug, title} driving Sidebar + routing
+        lessons/
+          01-welcome.js
+          02-variables-and-types.js
+          ... (one file per lesson, 14 total)
   pages/
     Home.jsx                # course overview + "Continue where you left off"
     Lesson.jsx              # renders a lesson's content blocks via LessonLayout
-  App.jsx                   # router setup, Pyodide worker provider
+  App.jsx                   # router setup, Pyodide worker provider, active-course constant
 ```
 
 ### Pyodide execution flow
@@ -87,8 +92,9 @@ src/
    (via Pyodide's `setStdout`/`setStderr` callbacks), executes the code
    with `pyodide.runPython`, and posts back `{id, stdout, stderr, error}`.
 4. `CodeBlock` renders stdout/stderr as-is. `Exercise` additionally
-   compares the trimmed, whitespace-normalized stdout against the
-   exercise's stored `expectedOutput` string and renders pass/fail.
+   dispatches on the exercise's `check.type` — currently only
+   `stdout-exact`, which compares the trimmed, whitespace-normalized
+   stdout against `check.expected` — and renders pass/fail.
 5. While the worker is loading (first visit only), example/exercise Run
    buttons are disabled with a "Loading Python…" indicator.
 
@@ -99,7 +105,7 @@ this keeps exercise-checking wired directly into the data with no parsing
 layer:
 
 ```js
-// content/lessons/04-control-flow.js
+// content/courses/python-core/lessons/04-control-flow.js
 export default {
   slug: "control-flow",
   title: "Control Flow",
@@ -111,7 +117,7 @@ export default {
       id: "control-flow-1",
       prompt: "Write code that prints 'even' if x is even, else 'odd'. x = 7 is provided.",
       starterCode: "x = 7\n",
-      expectedOutput: "odd",
+      check: { type: "stdout-exact", expected: "odd" },
     },
   ],
 };
@@ -121,7 +127,25 @@ export default {
 drives the sidebar, the Next/Previous footer, and routing — adding a
 lesson later means adding one file + one index entry.
 
-## Curriculum (14 lessons, core language only)
+Two seams are worth calling out because they're what make this easy to
+build on later, and both cost nothing extra today:
+
+- **Block rendering is a registry, not a switch statement.** `blocks/registry.js`
+  maps a block's `type` string to the component that renders it
+  (`prose` → `Prose`, `example` → `CodeBlock`, `exercise` → `Exercise`).
+  `Lesson.jsx` just walks a lesson's `blocks` array and looks up the
+  renderer. Adding a new block type later (a callout, an image, a quiz)
+  means adding one component and one registry entry — no existing
+  rendering code changes.
+- **Exercise checking is a typed `check` object, not a bare string.**
+  Only `{ type: "stdout-exact", expected }` is implemented now (matches
+  the auto-checked-output-matching decision above), but `Exercise.jsx`
+  dispatches on `check.type` rather than assuming one shape. A future
+  checker (e.g. "any of several valid outputs", numeric tolerance) is
+  additive: a new `case` in the dispatch, no change to existing
+  exercises' data.
+
+## Curriculum (14 lessons, core language only, course slug `python-core`)
 
 1. Welcome & first script — `print()`, comments, no install needed
 2. Variables & types — dynamic typing (like JS), no `var`/`let`/`const`, `snake_case`
@@ -148,10 +172,11 @@ Each lesson is one scrollable page rendered by `LessonLayout`:
 - Example blocks: pre-filled `CodeBlock` — editable, Run button, output
   shown below. Purely exploratory, not graded.
 - Exercise blocks: `Exercise` component — prompt text, starter code in
-  CodeMirror, Check button. Runs the code, compares stdout to
-  `expectedOutput`. Pass shows a success state; fail shows the user's
-  actual output next to the expected output (never the solution — no
-  reveal, per the user's choice of auto-checking over self-grading).
+  CodeMirror, Check button. Runs the code and checks it per the
+  exercise's `check` object (currently always `stdout-exact`). Pass
+  shows a success state; fail shows the user's actual output next to
+  the expected output (never the solution — no reveal, per the user's
+  choice of auto-checking over self-grading).
 - Footer: Previous/Next lesson links.
 
 ## Progress Tracking
@@ -208,11 +233,35 @@ Informational over visual, per the user's request:
 - Standard `npm run lint` / `npm run build` before considering the
   initial build done.
 
+## Extensibility
+
+The design intentionally keeps a few seams open so the site can grow
+without rework, since this is expected to be a living project:
+
+- **New lessons**: add one file under `content/courses/python-core/lessons/`
+  and one entry in `lessonIndex.js`. Nothing else changes.
+- **New block types** (e.g. a callout box, an image, a quiz): add a
+  component and a `blocks/registry.js` entry. Existing lessons/components
+  are untouched.
+- **New exercise-checking strategies**: add a `case` to `Exercise.jsx`'s
+  dispatch on `check.type`. Existing exercises keep using `stdout-exact`.
+- **A second course** (e.g. "core + stdlib", or a specific direction like
+  web/data/automation, both discussed and declined for v1): add a sibling
+  folder under `content/courses/<new-slug>/` with its own
+  `lessonIndex.js` and lessons, reusing every existing component
+  (`Sidebar`, `LessonLayout`, `blocks/*`, the worker/hooks). `App.jsx`
+  currently wires in a single active course by constant; pointing it at
+  a different course, or adding a course switcher, is a small,
+  self-contained change when/if it's needed.
+
+What this spec is **not** building now, to keep scope honest: a
+multi-course switcher UI, any exercise-checker beyond `stdout-exact`, or
+extra block types beyond `prose`/`example`/`exercise`. The registry/typed
+`check` structure just means adding those later doesn't require
+revisiting working code.
+
 ## Future Considerations (explicitly out of scope now)
 
 - Deploying to a host (e.g. Vercel) if the user later wants access from
   other devices — would need progress storage to move off pure
   `localStorage` or accept per-browser progress.
-- A follow-on "core + stdlib" or "core + a specific direction" course
-  once this one is finished, per the curriculum-scope options discussed
-  and declined for v1.
