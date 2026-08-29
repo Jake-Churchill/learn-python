@@ -1,15 +1,17 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PyodideProvider } from "./hooks/PyodideProvider.jsx";
-import PyodideStatusBadge from "./components/PyodideStatusBadge.jsx";
+import Home from "./pages/Home.jsx";
+import Lesson from "./pages/Lesson.jsx";
 
 export default function App() {
   return (
     <PyodideProvider>
-      <div className="p-8 text-xl">
-        Learn Python — scaffold OK
-        <div className="mt-2">
-          <PyodideStatusBadge />
-        </div>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/lessons/:slug" element={<Lesson />} />
+        </Routes>
+      </BrowserRouter>
     </PyodideProvider>
   );
 }
