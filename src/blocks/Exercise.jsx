@@ -21,20 +21,25 @@ export default function Exercise({ id, prompt, starterCode, check, lessonSlug, o
   }
 
   return (
-    <div className="my-4 rounded border-2 border-amber-300 bg-amber-50 p-3">
-      <p className="mb-2 font-medium">{prompt}</p>
+    <div className="my-6 overflow-hidden rounded-md border-t-2 border-pine bg-card">
+      <div className="px-3 pt-2">
+        <span className="font-mono text-[0.6875rem] font-semibold uppercase tracking-widest text-pine">
+          Prove it
+        </span>
+        <p className="mb-2 mt-1 font-body text-[1.0625rem] text-ink">{prompt}</p>
+      </div>
       <PythonEditor value={code} onChange={setCode} />
-      <div className="mt-2 flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-3 border-t border-rule p-2">
         <button
           type="button"
           onClick={handleCheck}
           disabled={status !== "ready" || checking}
-          className="rounded bg-amber-700 px-3 py-1 text-sm text-white disabled:opacity-50"
+          className="rounded-sm bg-pine px-3 py-1 font-mono text-sm text-paper transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {status !== "ready" ? "Loading Python…" : checking ? "Checking…" : "Check"}
         </button>
         {result && (
-          <span className={result.passed ? "text-green-700" : "text-red-700"}>
+          <span className={`font-mono text-sm ${result.passed ? "text-pine" : "text-rust"}`}>
             {result.passed ? "Passed!" : `Not quite — got: ${result.actual}`}
           </span>
         )}
