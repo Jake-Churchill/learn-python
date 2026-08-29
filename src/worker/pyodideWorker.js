@@ -29,12 +29,12 @@ self.onmessage = async (event) => {
     let stderr = "";
     pyodide.setStdout({
       batched: (text) => {
-        stdout += text;
+        stdout += text + "\n";
       },
     });
     pyodide.setStderr({
       batched: (text) => {
-        stderr += text;
+        stderr += text + "\n";
       },
     });
     try {
