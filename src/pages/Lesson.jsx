@@ -10,12 +10,14 @@ export default function Lesson() {
   const lesson = lessons.find((l) => l.slug === slug);
 
   if (!lesson) {
-    return <p className="p-8">Lesson not found.</p>;
+    return <p className="bg-paper p-8 font-body text-ink">Lesson not found.</p>;
   }
 
   return (
     <LessonLayout lessons={lessons} progress={progress} currentSlug={slug}>
-      <h1 className="mb-4 text-2xl font-semibold text-slate-900">{lesson.title}</h1>
+      <h1 className="mb-6 font-mono text-2xl font-semibold tracking-tight text-indigo">
+        {lesson.title}
+      </h1>
       {lesson.blocks.map((block, i) => {
         const Component = blockRegistry[block.type];
         return (
