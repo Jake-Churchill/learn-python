@@ -1,8 +1,14 @@
 {
   "name": "learn-python",
+  "description": "An interactive, in-browser Python course built with React and Pyodide.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jake-Churchill/learn-python.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
