@@ -59,6 +59,10 @@ src/
 Design and implementation notes (from the original build process) live in
 [`docs/superpowers/`](docs/superpowers/).
 
+## Contact
+
+Questions or feedback? Reach out at [warmonkey@jakechurchill.com](mailto:warmonkey@jakechurchill.com).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

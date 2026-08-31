@@ -40,6 +40,12 @@ export default function Home() {
           </li>
         ))}
       </ol>
+      <footer className="mt-10 border-t border-rule pt-6 font-mono text-sm text-ink/50">
+        Questions or feedback?{" "}
+        <a href="mailto:warmonkey@jakechurchill.com" className="text-indigo hover:underline">
+          warmonkey@jakechurchill.com
+        </a>
+      </footer>
     </div>
   );
 }
