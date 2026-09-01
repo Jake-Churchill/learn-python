@@ -45,14 +45,24 @@ export default function Exercise({ id, prompt, starterCode, check, lessonSlug, o
         </button>
         {result?.passed && <span className="font-mono text-sm text-pine">Passed!</span>}
       </div>
-      {result && !result.passed && (
-        <div className="border-t border-rule p-3 font-mono text-sm text-rust">
-          <p className="mb-2">Not quite yet — here's what your code produced:</p>
+      {result && (
+        <div
+          className={`border-t border-rule p-3 font-mono text-sm ${result.passed ? "text-ink" : "text-rust"}`}
+        >
+          <p className="mb-2">
+            {result.passed
+              ? "Output:"
+              : "Not quite yet — here's what your code produced:"}
+          </p>
           <pre className="mb-2 whitespace-pre-wrap rounded-sm bg-paper p-2">
             {result.actual || "(no output)"}
           </pre>
-          <p className="mb-2">Expected:</p>
-          <pre className="whitespace-pre-wrap rounded-sm bg-paper p-2">{check.expected}</pre>
+          {!result.passed && (
+            <>
+              <p className="mb-2">Expected:</p>
+              <pre className="whitespace-pre-wrap rounded-sm bg-paper p-2">{check.expected}</pre>
+            </>
+          )}
         </div>
       )}
     </div>
