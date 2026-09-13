@@ -4,15 +4,15 @@ export default {
   blocks: [
     {
       type: "prose",
-      body: "Python lists are written just like JS arrays: `fruits = [\"apple\", \"banana\"]`. Indexing works the same way too — `fruits[0]` — and Python adds negative indices: `fruits[-1]` is the last item, no more `arr[arr.length - 1]`.",
+      body: "A list holds an ordered collection of values: `fruits = [\"apple\", \"banana\"]`. Access an item by its position (starting at 0) with square brackets: `fruits[0]` is `\"apple\"`. Python also supports negative indices counting from the end, so `fruits[-1]` always gives you the last item without needing to know how long the list is.",
     },
     {
       type: "prose",
-      body: "Slicing is new: `fruits[1:3]` gives the items at index 1 and 2 — start inclusive, end exclusive. It's like `.slice()` but built into the syntax.",
+      body: "Slicing lets you pull out a sub-list: `fruits[1:3]` gives the items at index 1 and 2 — the start index is included, the end index is not. Leave either side blank to slice to the beginning or end, e.g. `fruits[:2]` or `fruits[1:]`.",
     },
     {
       type: "prose",
-      body: "Common methods map over directly: `.append(x)` is JS's `.push(x)`, and `len(fruits)` replaces `.length` — note it's a function call, not a property.",
+      body: "To add an item to the end of a list, use `.append(x)`. To find out how many items a list holds, use the built-in `len(fruits)` function — note it's a function you call on the list, not a value the list stores.",
     },
     {
       type: "example",

@@ -4,15 +4,15 @@ export default {
   blocks: [
     {
       type: "prose",
-      body: "JS's `import { thing } from \"module\"` becomes Python's `import module` or `from module import thing`. Python's standard library ships as built-in modules — no npm install needed for things like `math` or `random`.",
+      body: "A module is just a file of Python code that other files can reuse. Bring one into your file with `import module_name`, or pull out just what you need with `from module_name import thing`. Python ships with a large standard library of built-in modules — like `math` and `random` — ready to use with no separate installation step.",
     },
     {
       type: "prose",
-      body: "`import math` then use `math.sqrt(16)` — dotted access, similar to a JS namespace import.",
+      body: "After `import math`, access anything inside it with a dot: `math.sqrt(16)`. This dotted-access pattern is how you reach any function or value defined inside a module you've imported.",
     },
     {
       type: "prose",
-      body: "`if __name__ == \"__main__\":` is a Python idiom with no direct JS equivalent — a guard so code only runs when the file is executed directly, not when another file imports it.",
+      body: "`if __name__ == \"__main__\":` is a common Python idiom: `__name__` is a special variable Python sets to `\"__main__\"` only when the file is run directly, and to the module's name when another file imports it instead. Wrapping code in this check means it only runs when you execute the file yourself — not every time something else imports it.",
     },
     {
       type: "example",

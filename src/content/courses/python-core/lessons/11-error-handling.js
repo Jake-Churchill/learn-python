@@ -4,7 +4,7 @@ export default {
   blocks: [
     {
       type: "prose",
-      body: "JS's try { ... } catch (e) { ... } becomes Python's `try:` / `except Exception as e:` — same idea, different keywords, and Python's blocks use indentation like everywhere else.",
+      body: "When code might fail — like dividing by zero or converting invalid text to a number — wrap it in a `try` block, and handle the failure in an `except` block: `try:` / `except Exception as e:`. If an error occurs inside `try`, Python immediately jumps to the matching `except` instead of crashing the program.",
     },
     {
       type: "prose",
@@ -12,7 +12,7 @@ export default {
     },
     {
       type: "prose",
-      body: "`finally:` behaves exactly like JS's `finally` block — it runs whether or not an exception happened.",
+      body: "A `finally:` block, if you add one, always runs after the `try`/`except` — whether or not an error happened — which makes it useful for cleanup code that must happen no matter what.",
     },
     {
       type: "example",

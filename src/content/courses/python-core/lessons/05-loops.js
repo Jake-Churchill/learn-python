@@ -4,15 +4,15 @@ export default {
   blocks: [
     {
       type: "prose",
-      body: "JS's for...of loops over the values in an array; Python's for loop always works this way — `for item in some_list:`. There's no idiomatic C-style `for (let i = 0; i < n; i++)` in Python.",
+      body: "A loop lets you repeat code without writing it out multiple times. Python's `for` loop iterates over the items in a collection one at a time: `for item in some_list:` runs its indented body once for each item, with `item` set to the current one each time through.",
     },
     {
       type: "prose",
-      body: "Need a counted loop instead? Use `range(n)`: `for i in range(5):` counts 0 through 4, the same range as `for (let i = 0; i < 5; i++)`.",
+      body: "To loop a specific number of times instead of over an existing collection, use `range(n)`, which produces the numbers 0 up to (but not including) `n`. So `for i in range(5):` runs the body 5 times, with `i` taking the values 0, 1, 2, 3, 4 in turn.",
     },
     {
       type: "prose",
-      body: "`while` works just like JS's while — a condition, a colon, and an indented body. Python also has no `i++`; you write `i += 1` instead.",
+      body: "A `while` loop repeats its body for as long as a condition stays true, rechecking the condition before each pass: `while count > 0:` followed by an indented body. Python has no `i++` shorthand — to change a number by one, write `count -= 1` (or `count += 1`).",
     },
     {
       type: "example",

@@ -4,15 +4,15 @@ export default {
   blocks: [
     {
       type: "prose",
-      body: "Python dicts are like JS objects (or Maps): `person = {\"name\": \"Ada\", \"age\": 30}`. Keys are written as strings with quotes — there's no unquoted-key shortcut like JS object literals have.",
+      body: "A dictionary stores values under keys you choose, rather than positions: `person = {\"name\": \"Ada\", \"age\": 30}`. Keys are usually written as strings, in quotes, each followed by a colon and its value.",
     },
     {
       type: "prose",
-      body: "Access is bracket-only: `person[\"name\"]` — there's no dot-access shortcut like JS's `person.name`.",
+      body: "Look up a value by its key using square brackets: `person[\"name\"]` gives `\"Ada\"`. Dictionaries are always accessed with this bracket-and-key syntax — there's no shortcut like `person.name`.",
     },
     {
       type: "prose",
-      body: "Add or update a key the same way as JS: `person[\"age\"] = 31`. Check whether a key exists with `\"age\" in person`, which reads almost exactly like JS's `\"age\" in person`.",
+      body: "Add a new key or update an existing one the same way: `person[\"age\"] = 31`. To check whether a key exists before using it, use the `in` operator: `\"age\" in person` gives back `True` or `False`.",
     },
     {
       type: "example",

@@ -4,15 +4,15 @@ export default {
   blocks: [
     {
       type: "prose",
-      body: "JS: `function add(a, b) { return a + b; }`. Python: `def add(a, b):` followed by an indented body with `return a + b` — no braces, no function keyword for the body, no semicolon.",
+      body: "Define a function with `def`, a name, parentheses for its parameters, and a colon: `def add(a, b):` followed by an indented body. Use `return` to send a value back to wherever the function was called — the same indentation rules from `if` and loops apply here too.",
     },
     {
       type: "prose",
-      body: "Default parameters look similar — `def greet(name=\"World\"):` compares to `function greet(name = \"World\")` — but Python has a classic trap: a mutable default argument like `def add_item(item, items=[]):` is created once and reused across every call, unlike a fresh JS closure. The fix is `items=None`, then `if items is None: items = []` inside the function.",
+      body: "A parameter can have a default value, used whenever the caller doesn't supply one: `def greet(name=\"World\"):` lets you call `greet()` and have `name` default to `\"World\"`. Watch out for one trap: a default value that's a mutable object, like `def add_item(item, items=[]):`, is created only once — the first time Python reads the function definition — and then reused on every call, so items pile up across calls instead of starting fresh each time. The fix is to default to `None` instead: `items=None`, then `if items is None: items = []` as the first line inside the function.",
     },
     {
       type: "prose",
-      body: "Variable arguments: JS's rest parameter `...args` becomes Python's `*args`.",
+      body: "To let a function accept any number of arguments, use `*args` in the parameter list: `def total(*numbers):` collects every argument passed in as a tuple named `numbers` inside the function, however many there are.",
     },
     {
       type: "example",

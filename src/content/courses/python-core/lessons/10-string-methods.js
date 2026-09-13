@@ -4,15 +4,15 @@ export default {
   blocks: [
     {
       type: "prose",
-      body: "Many string methods map directly: JS's `.toUpperCase()` becomes Python's `.upper()`; `.trim()` becomes `.strip()`; `.includes()` becomes the `in` operator, e.g. `\"lo\" in \"hello\"`; `.split(\",\")` is spelled and behaves the same way in both.",
+      body: "Strings come with built-in methods for common transformations: `.upper()` converts to uppercase, `.strip()` removes leading and trailing whitespace, and `.split(\",\")` breaks a string into a list of pieces wherever the given separator appears. To check whether one string contains another, use the `in` operator rather than a method: `\"lo\" in \"hello\"`.",
     },
     {
       type: "prose",
-      body: "Joining is flipped: JS does `arr.join(\", \")`; Python does `\", \".join(arr)` — the separator string calls `.join()`, not the list.",
+      body: "To combine a list of strings back into one string with a separator in between, call `.join()` on the separator, not the list: `\", \".join(words)` puts `\", \"` between each item in `words`. It can feel backwards at first, but the separator string is what's doing the joining.",
     },
     {
       type: "prose",
-      body: "f-strings support format specs too: `f\"{price:.2f}\"` rounds a float to 2 decimal places, similar to JS's `price.toFixed(2)` but written inline in the string.",
+      body: "f-strings support format specs for controlling how a value is displayed: `f\"{price:.2f}\"` rounds `price` to exactly 2 decimal places. The `:` after the variable name introduces the format spec, and `.2f` means \"fixed-point number, 2 digits after the decimal.\"",
     },
     {
       type: "example",

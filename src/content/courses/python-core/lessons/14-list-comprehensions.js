@@ -4,11 +4,11 @@ export default {
   blocks: [
     {
       type: "prose",
-      body: "You've written `[1, 2, 3].map(x => x * 2)` or `.filter(x => x > 2)` chains in JS. Python's list comprehension folds both into one expression: `[x * 2 for x in numbers]` for a map, or `[x for x in numbers if x > 2]` for a filter — and you can combine both in one comprehension.",
+      body: "A list comprehension builds a new list from an existing one in a single line: `[x * 2 for x in numbers]` creates a list with every item in `numbers` doubled. Add an `if` at the end to filter which items are included: `[x for x in numbers if x > 2]` keeps only the items greater than 2. You can combine a transformation and a filter in one comprehension.",
     },
     {
       type: "prose",
-      body: "Read it left to right like English: \"x times 2, for each x in numbers, if x is greater than 2.\" It builds a brand-new list; the original list is never mutated, same as JS's .map()/.filter().",
+      body: "Read a comprehension left to right like a sentence: \"x times 2, for each x in numbers, if x is greater than 2.\" It always builds a brand-new list — the original list, `numbers`, is left completely unchanged.",
     },
     {
       type: "example",

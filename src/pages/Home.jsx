@@ -14,9 +14,8 @@ export default function Home() {
         Learn Python
       </h1>
       <p className="mb-8 font-body text-lg leading-relaxed text-ink/80">
-        A {lessons.length}-lesson course covering core Python syntax, written for someone who
-        already knows HTML, CSS, and JavaScript. {completedCount} of {lessons.length} lessons
-        complete.
+        A {lessons.length}-lesson course covering core Python syntax from scratch — no prior
+        coding experience required. {completedCount} of {lessons.length} lessons complete.
       </p>
       <Link
         to={`/lessons/${continueLesson.slug}`}

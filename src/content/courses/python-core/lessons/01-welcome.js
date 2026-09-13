@@ -8,11 +8,11 @@ export default {
     },
     {
       type: "prose",
-      body: "In JS, a full \"hello world\" is `console.log('Hello, world!')`. In Python it's `print('Hello, world!')` — no semicolon, and it's a plain function call, not a method on a global object.",
+      body: "To have Python display something, use the `print()` function: `print('Hello, world!')`. Whatever you put inside the parentheses gets shown as output — no semicolon needed at the end of the line.",
     },
     {
       type: "prose",
-      body: "Comments start with `#`, not `//`, and there's no block-comment syntax like `/* */` — every commented line needs its own `#`.",
+      body: "Comments are notes in your code that Python ignores when running it — they're there for humans to read. Start one with `#`; everything after it on that line is ignored. There's no way to comment out several lines at once — each one needs its own `#`.",
     },
     {
       type: "example",

@@ -8,7 +8,7 @@ export default {
     },
     {
       type: "prose",
-      body: "Python's equivalent of a JS template literal is an f-string: put an `f` right before the opening quote and use `{}` to interpolate values, e.g. `f\"Hello, {name}!\"` — it does the same job as a template literal with `${name}` inside it.",
+      body: "To build a string that includes the value of a variable, use an f-string: put an `f` right before the opening quote, then wrap any variable name in `{}` inside the string, e.g. `f\"Hello, {name}!\"`. Python fills in the current value of `name` automatically — this is called string interpolation, and it's much cleaner than gluing pieces together with `+`.",
     },
     {
       type: "example",

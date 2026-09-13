@@ -4,15 +4,15 @@ export default {
   blocks: [
     {
       type: "prose",
-      body: "JS has `let`, `const`, and old-school `var`. Python has none of that — you just write `name = value` and it's created (or reassigned) on the spot. There's no declaration keyword at all.",
+      body: "A variable is a name that stores a value so you can use it again later. In Python, you create one just by writing `name = value` — there's no declaration keyword needed. Assigning to a name that already exists simply replaces its old value.",
     },
     {
       type: "prose",
-      body: "Naming convention differs too: JS and Java favor camelCase; Python convention is snake_case — `user_name`, not `userName`.",
+      body: "Python's naming convention for variables is snake_case: lowercase words separated by underscores, like `user_name` rather than `userName`. It isn't enforced by the language, but following it makes your code easier for other Python programmers — and future you — to read.",
     },
     {
       type: "prose",
-      body: "Python is dynamically typed, just like JS: a variable can hold an int and later hold a string with no error. Use `type(x)` to check what something currently is.",
+      body: "Every value in Python has a type, such as `int` for whole numbers or `str` for text. Python is dynamically typed, meaning a variable isn't locked to one type: it simply holds whatever value you last assigned it, whether that's a number now and a string later. Use the built-in `type(x)` function any time you want to check what a value currently is.",
     },
     {
       type: "example",

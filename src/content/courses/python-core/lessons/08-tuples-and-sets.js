@@ -4,11 +4,11 @@ export default {
   blocks: [
     {
       type: "prose",
-      body: "A tuple looks like a list but with parentheses, and it can't be changed after creation: `point = (3, 4)`. Try `point[0] = 5` and you'll get a TypeError — there's no exact JS equivalent, though Object.freeze() on an array is the closest idea.",
+      body: "A tuple looks like a list but uses parentheses instead of square brackets, and — unlike a list — it can't be changed after it's created: `point = (3, 4)`. Try `point[0] = 5` and Python raises a TypeError. Tuples are useful whenever a value is meant to stay fixed, like a pair of coordinates.",
     },
     {
       type: "prose",
-      body: "A set is like JS's Set: unordered, with no duplicates. `colors = {\"red\", \"green\", \"red\"}` collapses down to two items.",
+      body: "A set stores a collection of values with two rules: order isn't tracked, and duplicates are automatically removed. `colors = {\"red\", \"green\", \"red\"}` collapses down to two items, since \"red\" only counts once.",
     },
     {
       type: "prose",
