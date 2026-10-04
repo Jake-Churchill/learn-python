@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import { lessons } from "../content/courses/python-core/lessonIndex.js";
 import { useProgress } from "../hooks/useProgress.js";
-import { getContinueLesson, isLessonComplete } from "../content/lessonUtils.js";
+import {
+  getContinueLesson,
+  getUnitProgress,
+  groupByUnit,
+  isLessonComplete,
+} from "../content/lessonUtils.js";
 
 export default function Home() {
   const { progress } = useProgress();
@@ -24,21 +29,36 @@ export default function Home() {
         <span aria-hidden="true">&gt;&gt;&gt;</span>
         {completedCount === 0 ? "Start the course" : "Continue where you left off"}
       </Link>
-      <ol className="mt-10 space-y-1 border-t border-rule pt-6 font-mono text-sm">
-        {lessons.map((lesson, i) => (
-          <li key={lesson.slug}>
-            <Link
-              to={`/lessons/${lesson.slug}`}
-              className="flex items-baseline gap-2 rounded-sm px-2 py-1 text-ink/70 hover:bg-card hover:text-indigo"
-            >
-              <span className="w-4 shrink-0 text-right text-xs tabular-nums text-ink/40">
-                {isLessonComplete(lesson, progress) ? "✓" : String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="font-body text-base">{lesson.title}</span>
-            </Link>
-          </li>
-        ))}
-      </ol>
+      <div className="mt-10 border-t border-rule pt-2">
+        {groupByUnit(lessons).map((group) => {
+          const { done, total } = getUnitProgress(group, progress);
+          return (
+            <section key={group.items[0].lesson.slug} className="mt-6">
+              <h2 className="mb-2 flex items-baseline justify-between px-2 font-mono text-xs font-semibold uppercase tracking-widest text-ink/50">
+                <span>{group.unit}</span>
+                <span className="tabular-nums text-ink/40">
+                  {done}/{total}
+                </span>
+              </h2>
+              <ol className="space-y-1 font-mono text-sm">
+                {group.items.map(({ lesson, number }) => (
+                  <li key={lesson.slug}>
+                    <Link
+                      to={`/lessons/${lesson.slug}`}
+                      className="flex items-baseline gap-2 rounded-sm px-2 py-1 text-ink/70 hover:bg-card hover:text-indigo"
+                    >
+                      <span className="w-4 shrink-0 text-right text-xs tabular-nums text-ink/40">
+                        {isLessonComplete(lesson, progress) ? "✓" : String(number).padStart(2, "0")}
+                      </span>
+                      <span className="font-body text-base">{lesson.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          );
+        })}
+      </div>
       <footer className="mt-10 border-t border-rule pt-6 font-mono text-sm text-ink/50">
         Questions or feedback?{" "}
         <a href="mailto:warmonkey@jakechurchill.com" className="text-indigo hover:underline">

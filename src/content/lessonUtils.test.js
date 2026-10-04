@@ -4,6 +4,8 @@ import {
   isLessonComplete,
   getContinueLesson,
   getAdjacentLessons,
+  groupByUnit,
+  getUnitProgress,
 } from "./lessonUtils.js";
 
 const lessons = [
@@ -62,5 +64,45 @@ describe("getAdjacentLessons", () => {
     const { prev, next } = getAdjacentLessons(lessons, "b");
     expect(prev.slug).toBe("a");
     expect(next.slug).toBe("c");
+  });
+});
+
+const unitLessons = [
+  { slug: "a", unit: "One", blocks: [{ type: "exercise", id: "a-1" }] },
+  { slug: "b", unit: "One", blocks: [{ type: "exercise", id: "b-1" }] },
+  { slug: "c", unit: "Two", blocks: [{ type: "exercise", id: "c-1" }] },
+  { slug: "d", blocks: [{ type: "exercise", id: "d-1" }] },
+];
+
+describe("groupByUnit", () => {
+  it("groups consecutive lessons by unit and keeps flat numbering", () => {
+    const groups = groupByUnit(unitLessons);
+    expect(groups.map((g) => g.unit)).toEqual(["One", "Two", "Lessons"]);
+    expect(groups[0].items.map((i) => [i.lesson.slug, i.number])).toEqual([
+      ["a", 1],
+      ["b", 2],
+    ]);
+    expect(groups[1].items.map((i) => i.number)).toEqual([3]);
+    expect(groups[2].items.map((i) => i.number)).toEqual([4]);
+  });
+
+  it("starts a new group when a unit repeats after another unit", () => {
+    const groups = groupByUnit([
+      { slug: "a", unit: "One" },
+      { slug: "b", unit: "Two" },
+      { slug: "c", unit: "One" },
+    ]);
+    expect(groups.map((g) => [g.unit, g.items.map((i) => i.lesson.slug)])).toEqual([
+      ["One", ["a"]],
+      ["Two", ["b"]],
+      ["One", ["c"]],
+    ]);
+  });
+});
+
+describe("getUnitProgress", () => {
+  it("counts completed lessons in a group", () => {
+    const [first] = groupByUnit(unitLessons);
+    expect(getUnitProgress(first, { a: { "a-1": true } })).toEqual({ done: 1, total: 2 });
   });
 });

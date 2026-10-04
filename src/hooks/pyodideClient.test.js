@@ -49,6 +49,16 @@ describe("createPyodideClient", () => {
     await expect(promise).resolves.toEqual({ stdout: "1\n", stderr: "" });
   });
 
+  it("sends stdin with the run message", () => {
+    const worker = createFakeWorker();
+    const client = createPyodideClient(worker);
+
+    client.run("x = input()", { stdin: "Ada" });
+
+    const runCall = worker.postMessage.mock.calls.find(([msg]) => msg.type === "run");
+    expect(runCall[0]).toMatchObject({ code: "x = input()", stdin: "Ada" });
+  });
+
   it("unsubscribes a status listener", () => {
     const worker = createFakeWorker();
     const client = createPyodideClient(worker);

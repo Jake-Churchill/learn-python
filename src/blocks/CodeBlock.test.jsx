@@ -26,6 +26,15 @@ describe("CodeBlock", () => {
     fireEvent.click(screen.getByRole("button", { name: /run/i }));
 
     await waitFor(() => expect(screen.getByText(/1/)).toBeInTheDocument());
-    expect(run).toHaveBeenCalledWith("print(1)");
+    expect(run).toHaveBeenCalledWith("print(1)", { stdin: undefined });
+  });
+
+  it("passes the block's stdin to run", async () => {
+    const run = vi.fn().mockResolvedValue({ stdout: "Ada\n", stderr: "" });
+    renderWithContext(<CodeBlock code="print(input())" stdin="Ada" />, { run });
+
+    fireEvent.click(screen.getByRole("button", { name: /run/i }));
+
+    await waitFor(() => expect(run).toHaveBeenCalledWith("print(input())", { stdin: "Ada" }));
   });
 });

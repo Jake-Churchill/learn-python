@@ -26,11 +26,11 @@ export function createPyodideClient(worker) {
 
   worker.postMessage({ type: "init" });
 
-  function run(code) {
+  function run(code, { stdin } = {}) {
     const id = nextId++;
     return new Promise((resolve) => {
       pending.set(id, { resolve });
-      worker.postMessage({ type: "run", id, code });
+      worker.postMessage({ type: "run", id, code, stdin });
     });
   }
 

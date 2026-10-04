@@ -21,3 +21,25 @@ export function getAdjacentLessons(lessons, currentSlug) {
     next: index >= 0 && index < lessons.length - 1 ? lessons[index + 1] : null,
   };
 }
+
+export function groupByUnit(lessons) {
+  const groups = [];
+  lessons.forEach((lesson, index) => {
+    const unit = lesson.unit ?? "Lessons";
+    const item = { lesson, number: index + 1 };
+    const last = groups[groups.length - 1];
+    if (last && last.unit === unit) {
+      last.items.push(item);
+    } else {
+      groups.push({ unit, items: [item] });
+    }
+  });
+  return groups;
+}
+
+export function getUnitProgress(group, progress) {
+  return {
+    done: group.items.filter(({ lesson }) => isLessonComplete(lesson, progress)).length,
+    total: group.items.length,
+  };
+}

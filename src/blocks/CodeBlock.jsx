@@ -2,7 +2,7 @@ import { useState } from "react";
 import PythonEditor from "./PythonEditor.jsx";
 import { usePyodideContext } from "../hooks/PyodideProvider.jsx";
 
-export default function CodeBlock({ code: initialCode }) {
+export default function CodeBlock({ code: initialCode, stdin }) {
   const { status, run } = usePyodideContext();
   const [code, setCode] = useState(initialCode);
   const [output, setOutput] = useState(null);
@@ -10,7 +10,7 @@ export default function CodeBlock({ code: initialCode }) {
 
   async function handleRun() {
     setRunning(true);
-    const result = await run(code);
+    const result = await run(code, { stdin });
     setOutput(result);
     setRunning(false);
   }

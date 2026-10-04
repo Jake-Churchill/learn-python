@@ -36,14 +36,14 @@ export function PyodideProvider({ children }) {
     };
   }, []);
 
-  const run = useCallback((code) => {
+  const run = useCallback((code, options) => {
     const current = stateRef.current;
     if (!current) {
       return Promise.resolve({ stdout: "", stderr: "Pyodide not ready" });
     }
 
     return Promise.race([
-      current.client.run(code).then((result) => ({ ...result, timedOut: false })),
+      current.client.run(code, options).then((result) => ({ ...result, timedOut: false })),
       new Promise((resolve) => {
         setTimeout(() => resolve({ timedOut: true }), RUN_TIMEOUT_MS);
       }),
